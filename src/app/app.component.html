@@ -1,4 +1,3 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div fxLayout="row" fxLayoutAlign="center center">
     <h1 fxFlex="50">
         Is Chris drunk?
@@ -15,8 +14,8 @@
 </div>
 <br><br><br>
 <div fxLayout="row" fxLayoutAlign="center center">
-    <button mat-button color="accent">👍</button>
-    <button mat-button>👎</button>
+    <button (click)="onClickYes()" mat-button color="accent">👍</button>
+    <button (click)="onClickNo()" mat-button>👎</button>
 </div>
 <br><br><br>
 
