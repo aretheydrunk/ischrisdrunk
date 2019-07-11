@@ -35,8 +35,4 @@ export class AppComponent {
   onClickNo() {
     this.send("no");
   }
-
-  onClickMaybe() {
-    this.send("maybe");
-  }
 }
