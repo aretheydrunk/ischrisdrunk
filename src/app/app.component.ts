@@ -12,6 +12,7 @@ export class AppComponent implements OnInit{
   voted = false;
   endpoint = 'https://api.cubaleon.com/frontend/is_chris_drunk';
   status = "YES";
+  image = "chris_drunk.png";
 
     constructor() {
         const votedTime = localStorage.getItem('voted');
@@ -42,6 +43,8 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.send('status').then(response => {
+      console.log(response);
+
       this.calculateStatus(
         response['lastHour']['isDrunk'],
         response['lastHour']['isNotDrunk']
@@ -54,24 +57,25 @@ export class AppComponent implements OnInit{
   calculateStatus(yes, no)
   {
     if(yes+no < 10) {
-      this.setStatus('WE DUNNO');
+      this.setStatus('WE DUNNO', 'chris_drunk.png');
     }else{
       let total = yes + no;
       let percent = (yes / total) * 100;
 
       if(percent > 55){
-        this.setStatus('YES');
+        this.setStatus('YES', 'chris_drunk.png');
       }else if(percent < 35){
-        this.setStatus('NO');
+        this.setStatus('NO', 'chris_sober.png');
       }else{
-        this.setStatus('MAYBE');
+        this.setStatus('MAYBE', 'chris_kind_of.png');
       }
     }
   }
 
-  setStatus(status)
+  setStatus(status, image)
   {
     this.status = status;
+    this.image = image;
   }
 
   onClickYes() {
