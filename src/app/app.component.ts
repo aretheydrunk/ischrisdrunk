@@ -13,32 +13,33 @@ export class AppComponent implements OnInit{
   endpoint = 'https://api.cubaleon.com/frontend/is_chris_drunk';
   status = "YES";
   image = "chris_drunk.png";
+  yes = 0;
+  no = 0;
 
-    constructor() {
-        const votedTime = localStorage.getItem('voted');
+  constructor() {
+      const votedTime = localStorage.getItem('voted');
 
-        this.voted = (moment().diff(moment(votedTime)) / 1000) <= (5 * 60);
-    }
+      this.voted = (moment().diff(moment(votedTime)) / 1000) <= (5 * 60);
+  }
 
+  send(answer) {
+    this.voted = true;
+    localStorage.setItem('voted', moment().format());
 
-    send(answer) {
-      this.voted = true;
-      localStorage.setItem('voted', moment().format());
-
-      return fetch(this.endpoint, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, cors, *same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          redirect: 'follow', // manual, *follow, error
-          referrer: 'no-referrer', // no-referrer, *client
-          body: JSON.stringify({
-            isDrunk: answer
-          }), // body data type must match "Content-Type" header
-      }).then(response => response.json());
+    return fetch(this.endpoint, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify({
+          isDrunk: answer
+        }), // body data type must match "Content-Type" header
+    }).then(response => response.json());
   }
 
   ngOnInit() {
@@ -48,6 +49,11 @@ export class AppComponent implements OnInit{
       this.calculateStatus(
         response['lastHour']['isDrunk'],
         response['lastHour']['isNotDrunk']
+      );
+
+      this.setTotals(
+        response['timeLife']['isDrunk'],
+        response['timeLife']['isNotDrunk']
       );
 
       return response;
@@ -72,10 +78,14 @@ export class AppComponent implements OnInit{
     }
   }
 
-  setStatus(status, image)
-  {
+  setStatus(status, image) {
     this.status = status;
     this.image = image;
+  }
+
+  setTotals(yes, no) {
+    this.yes = yes;
+    this.no = no;
   }
 
   onClickYes() {
