@@ -24,7 +24,6 @@ export class AppComponent implements OnInit{
 
   send(answer) {
     this.voted = true;
-    localStorage.setItem('voted', moment().format());
 
     return fetch(this.endpoint, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -45,6 +44,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.send('status').then(response => {
       console.log(response);
+      localStorage.setItem('voted', moment().format());
 
       this.calculateStatus(
         response.data.lastHour.isDrunk,
