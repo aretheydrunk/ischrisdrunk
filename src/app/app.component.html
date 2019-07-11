@@ -1,22 +1,38 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-    <h1 fxFlex="50">
-        Is Chris drunk?
-    </h1>
-</div>
-
-<div fxLayout="row" fxLayoutAlign="center center">
     <h2 fxFlex="50">
         {{status}}
     </h2>
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center center">
-        <div class="chris-status"><img src="../assets/img/chris_drunk.png"></div>
+    <div class="chris-status"><img src="../assets/img/chris_drunk.png"></div>
 </div>
-
-<div fxLayout="row" fxLayoutAlign="center center">
-    <button (click)="onClickYes()" mat-button color="accent">👍</button>
-    <button (click)="onClickNo()" mat-button>👎</button>
+<br>
+<div *ngIf="!voted">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <h3>Vote!</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <button (click)="onClickYes()" mat-button color="accent">👍</button>
+        <button (click)="onClickNo()" mat-button>👎</button>
+    </div>
 </div>
-
+<div *ngIf="voted">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <h3>Current Votes:</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="vote-total">
+            <span class="icon">👍</span>
+            <br>
+            <span class="text">123</span>
+        </div>
+        <div class="vote-total">
+            <span class="icon">👎</span>
+            <br>
+            <span class="text">123</span>
+        </div>
+    </div>
+</div>
+<br><br>
 <router-outlet></router-outlet>
