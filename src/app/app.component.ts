@@ -47,13 +47,13 @@ export class AppComponent implements OnInit{
       console.log(response);
 
       this.calculateStatus(
-        response['lastHour']['isDrunk'],
-        response['lastHour']['isNotDrunk']
+        response.data.lastHour.isDrunk,
+        response.data.lastHour.isNotDrunk
       );
 
       this.setTotals(
-        response['timeLife']['isDrunk'],
-        response['timeLife']['isNotDrunk']
+        response.data.timeLife.isDrunk,
+        response.data.timeLife.isNotDrunk
       );
 
       return response;
