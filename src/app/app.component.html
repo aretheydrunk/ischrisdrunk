@@ -4,13 +4,13 @@
     </h2>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="row" *ngIf="image" fxLayoutAlign="center center">
     <div class="chris-status"><img src="../assets/img/{{image}}"></div>
 </div>
 <br>
 <div *ngIf="!voted">
     <div fxLayout="row" fxLayoutAlign="center center">
-        <h3>Vote if Chris is drunk!</h3>
+        <h3>Is Chris drunk?</h3>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
         <button (click)="onClickYes()" mat-button color="accent">👍</button>
