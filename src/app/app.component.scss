@@ -1,0 +1,32 @@
+
+h1 {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 7em;
+}
+
+h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 9em;
+  text-align: center;
+  margin: 10px;
+  text-decoration: underline;
+}
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  h1 {
+    font-size: 3em;
+    margin-top: 100px;
+  }
+
+  h2 {
+    font-size: 5em;
+  }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+  /* Styles */
+}
