@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ischrisdrunk';
   endpoint = 'https://api.cubaleon.com/frontend/is_chris_drunk';
+  status = "YES";
 
   send(answer)
   {
@@ -28,11 +29,45 @@ export class AppComponent {
     }).then(response => response.json());
   }
 
+  ngOnInit() {
+    this.send('status').then(response => {
+      this.calculateStatus(
+        response['lastHour']['isDrunk'],
+        response['lastHour']['isNotDrunk']
+      );
+
+      return response;
+    });
+  }
+
+  calculateStatus(yes, no)
+  {
+    if(yes+no < 10) {
+      this.setStatus('WE DUNNO');
+    }else{
+      let total = yes + no;
+      let percent = (yes / total) * 100;
+
+      if(percent > 55){
+        this.setStatus('YES');
+      }else if(percent < 35){
+        this.setStatus('NO');
+      }else{
+        this.setStatus('MAYBE');
+      }
+    }
+  }
+
+  setStatus(status)
+  {
+    this.status = status;
+  }
+
   onClickYes() {
-    this.send("yes");
+    this.send('yes');
   }
 
   onClickNo() {
-    this.send("no");
+    this.send('no');
   }
 }
