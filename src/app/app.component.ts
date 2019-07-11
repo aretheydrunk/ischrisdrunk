@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,19 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'ischrisdrunk';
+  voted = false;
   endpoint = 'https://api.cubaleon.com/frontend/is_chris_drunk';
 
-  send(answer)
-  {
+    constructor() {
+        const votedTime = localStorage.getItem('voted');
+
+        this.voted = (moment().diff(moment(votedTime)) / 1000) <= (5 * 60);
+    }
+
+
+    send(answer) {
+        this.voted = true;
+        localStorage.setItem('voted', moment().format());
     return fetch(this.endpoint, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, cors, *same-origin
