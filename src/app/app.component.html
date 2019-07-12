@@ -1,38 +1,44 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-    <h2 fxFlex="50">
-        {{status}}
-    </h2>
+<div *ngIf="!isLoading">
+  <div fxLayout="row" fxLayoutAlign="center center">
+      <h2 fxFlex="50">
+          {{status}}
+      </h2>
+  </div>
+
+  <div fxLayout="row" *ngIf="image" fxLayoutAlign="center center">
+      <div class="chris-status"><img src="../assets/img/{{image}}"></div>
+  </div>
+  <br>
+  <div *ngIf="!voted">
+      <div fxLayout="row" fxLayoutAlign="center center">
+          <h3>Is Chris drunk?</h3>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center">
+          <button (click)="onClickYes()" [disabled]="isSending" mat-button color="accent">👍</button>
+          <button (click)="onClickNo()"  [disabled]="isSending" mat-button>👎</button>
+      </div>
+  </div>
+  <div *ngIf="voted">
+      <div fxLayout="row" fxLayoutAlign="center center">
+          <h3>Current votes</h3>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center">
+          <div class="vote-total">
+              <span class="icon">👍</span>
+              <br>
+              <span class="text">{{yes}}</span>
+          </div>
+          <div class="vote-total">
+              <span class="icon">👎</span>
+              <br>
+              <span class="text">{{no}}</span>
+          </div>
+      </div>
+  </div>
+  <br><br>
+  <footer fxLayout="row" fxLayoutAlign="center">
+    <span>With 😍 by Tudor, Milton and Chris</span>
+  </footer>
 </div>
 
-<div fxLayout="row" *ngIf="image" fxLayoutAlign="center center">
-    <div class="chris-status"><img src="../assets/img/{{image}}"></div>
-</div>
-<br>
-<div *ngIf="!voted">
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <h3>Is Chris drunk?</h3>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <button (click)="onClickYes()" mat-button color="accent">👍</button>
-        <button (click)="onClickNo()" mat-button>👎</button>
-    </div>
-</div>
-<div *ngIf="voted">
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <h3>Current Votes:</h3>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <div class="vote-total">
-            <span class="icon">👍</span>
-            <br>
-            <span class="text">{{yes}}</span>
-        </div>
-        <div class="vote-total">
-            <span class="icon">👎</span>
-            <br>
-            <span class="text">{{no}}</span>
-        </div>
-    </div>
-</div>
-<br><br>
 <router-outlet></router-outlet>

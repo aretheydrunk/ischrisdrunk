@@ -8,13 +8,14 @@ import * as moment from 'moment';
 })
 
 export class AppComponent implements OnInit {
-    title = 'ischrisdrunk';
     voted = false;
     endpoint = 'https://api.cubaleon.com/frontend/is_chris_drunk';
     status = '';
     image = '';
     yes = 0;
     no = 0;
+    isLoading = true;
+    isSending = false;
 
     constructor() {
         const votedTime = localStorage.getItem('voted');
@@ -41,8 +42,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.send('status').then(response => {
-            console.log(response);
-
+            this.isLoading = false;
             this.calculateStatus(
                 response.data.lastHour.isDrunk,
                 response.data.lastHour.isNotDrunk
@@ -59,17 +59,17 @@ export class AppComponent implements OnInit {
 
     calculateStatus(yes, no) {
         if (yes + no < 5) {
-            this.setStatus('WE DUNNO', 'chris_we_dunno.png');
+            this.setStatus('MAYBE', 'chris_we_dunno-min.png');
         } else {
             const total = yes + no;
             const percent = (yes / total) * 100;
 
             if (percent > 55) {
-                this.setStatus('YES', 'chris_drunk.png');
+                this.setStatus('YES!', 'chris_drunk-min.png');
             } else if (percent < 20) {
-                this.setStatus('NO', 'chris_sober.png');
+                this.setStatus('NO', 'chris_sober-min.png');
             } else {
-                this.setStatus('KIND OF', 'chris_kind_of.png');
+                this.setStatus('KIND OF...', 'chris_kind_of-min.png');
             }
         }
     }
@@ -85,8 +85,10 @@ export class AppComponent implements OnInit {
     }
 
     onClickYes() {
+        this.isSending = true;
         this.send('yes').then((response) => {
             this.voted = true;
+            this.isSending = false;
             localStorage.setItem('voted', moment().format());
             this.setTotals(
                 response.data.timeLife.isDrunk,
@@ -96,8 +98,10 @@ export class AppComponent implements OnInit {
     }
 
     onClickNo() {
+        this.isSending = true;
         this.send('no').then((response) => {
             this.voted = true;
+            this.isSending = false;
             localStorage.setItem('voted', moment().format());
             this.setTotals(
                 response.data.timeLife.isDrunk,
