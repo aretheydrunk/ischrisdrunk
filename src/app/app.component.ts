@@ -17,13 +17,48 @@ export class AppComponent implements OnInit {
     isLoading = true;
     isSending = false;
 
+    mockData = {
+      data: {
+        lastHour: {
+          isDrunk: 0,
+          isNotDrunk: 0,
+        },
+        timeLife: {
+          isDrunk: 0,
+          isNotDrunk: 0,
+        },
+      }
+    };
+
     constructor() {
         const votedTime = localStorage.getItem('voted');
 
         this.voted = (moment().diff(moment(votedTime)) / 1000) <= (5 * 60);
     }
 
-    send(answer) {
+    async mockUpdate(answer)
+    {
+      switch(answer){
+        case 'status':
+          return this.mockData;
+
+        case 'yes':
+          this.mockData.data.lastHour.isDrunk++;
+          this.mockData.data.timeLife.isDrunk++;
+          return this.mockData;
+
+        case 'no':
+          this.mockData.data.lastHour.isNotDrunk++;
+          this.mockData.data.timeLife.isNotDrunk++;
+          return this.mockData;
+      }
+    }
+
+    async send(answer) {
+        if(window.location.href.match('localhost')){
+          return await this.mockUpdate(answer);
+        }
+
         return fetch(this.endpoint, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
@@ -42,6 +77,8 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.send('status').then(response => {
+            console.log(response.data);
+
             this.isLoading = false;
             this.calculateStatus(
                 response.data.lastHour.isDrunk,
@@ -84,25 +121,14 @@ export class AppComponent implements OnInit {
         this.no = no;
     }
 
-    onClickYes() {
+    onVote(answer) {
         this.isSending = true;
-        this.send('yes').then((response) => {
-            this.voted = true;
-            this.isSending = false;
-            localStorage.setItem('voted', moment().format());
-            this.setTotals(
-                response.data.timeLife.isDrunk,
-                response.data.timeLife.isNotDrunk
-            );
-        });
-    }
 
-    onClickNo() {
-        this.isSending = true;
-        this.send('no').then((response) => {
+        this.send(answer).then((response) => {
             this.voted = true;
             this.isSending = false;
             localStorage.setItem('voted', moment().format());
+
             this.setTotals(
                 response.data.timeLife.isDrunk,
                 response.data.timeLife.isNotDrunk

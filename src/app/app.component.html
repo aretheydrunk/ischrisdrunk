@@ -14,8 +14,8 @@
           <h3>Is Chris drunk?</h3>
       </div>
       <div fxLayout="row" fxLayoutAlign="center center">
-          <button (click)="onClickYes()" [disabled]="isSending" mat-button color="accent">👍</button>
-          <button (click)="onClickNo()"  [disabled]="isSending" mat-button>👎</button>
+          <button (click)="onVote('yes')" [disabled]="isSending" mat-button color="accent">👍</button>
+          <button (click)="onVote('no')"  [disabled]="isSending" mat-button>👎</button>
       </div>
   </div>
   <div *ngIf="voted">
