@@ -102,9 +102,9 @@ export class AppComponent implements OnInit {
             const percent = (yes / total) * 100;
 
             if (percent > 55) {
-                this.setStatus('YES!', 'chris_drunk-min.png');
+                this.setStatus('WASTED!', 'chris_drunk-min.png');
             } else if (percent < 20) {
-                this.setStatus('NO', 'chris_sober-min.png');
+                this.setStatus('NO YET', 'chris_sober-min.png');
             } else {
                 this.setStatus('KIND OF...', 'chris_kind_of-min.png');
             }
